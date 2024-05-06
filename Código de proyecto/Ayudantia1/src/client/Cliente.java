@@ -9,21 +9,25 @@ import java.util.ArrayList;
 import common.InterfazDeServer;
 import common.Persona;
 
-public class Cliente {
+public class Cliente
+{
 	private InterfazDeServer server;
 	
 	public Cliente() {	}
-	public void startCliente() throws RemoteException, NotBoundException {
+	public void startCliente() throws RemoteException, NotBoundException
+	{
 		Registry registry = LocateRegistry.getRegistry("localhost", 5000);
 		server = (InterfazDeServer) registry.lookup("server");
 	}
 	
-	public ArrayList<Persona> getPersonas() throws RemoteException{
+	public ArrayList<Persona> getPersonas() throws RemoteException
+	{
 		ArrayList<Persona> listado_empleados = server.getPersonas();
 		
 		System.out.println("ID NOMBRE APELLIDO CREDITOS TIPO_JORNADA");
 		
-		for (int i = 0; i < listado_empleados.size(); i++) {
+		for (int i = 0; i < listado_empleados.size(); i++)
+		{
 			Persona empleado = listado_empleados.get(i);
 			String nombre, apellido, tipo_jornada;
 			int id_empleado, creditos;
@@ -40,17 +44,22 @@ public class Cliente {
 		return null;
 	}
 	
-	String getDataFromApi() throws RemoteException {
+	String getDataFromApi() throws RemoteException
+	{
 		return server.getDataFromApi();
 	}
 	
-	Object[] getUF() throws RemoteException {
+	Object[] getUF() throws RemoteException
+	{
 		Object[] valores_de_uf = server.getUF();
 		
-		if(valores_de_uf == null) {
+		if(valores_de_uf == null)
+		{
 			System.out.println("Hubo un error, no llego nada de la API");
 			return null;
-		} else {
+		}
+		else
+		{
 			String codigo = (String) valores_de_uf[0];
 			String nombre = (String) valores_de_uf[1];
 			String fecha = (String) valores_de_uf[2];
@@ -63,6 +72,4 @@ public class Cliente {
 		
 		return valores_de_uf;
 	}
-	
-	
 }

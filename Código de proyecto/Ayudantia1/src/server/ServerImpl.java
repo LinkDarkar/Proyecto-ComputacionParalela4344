@@ -22,9 +22,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import common.InterfazDeServer;
 import common.Persona;
 
-public class ServerImpl implements InterfazDeServer{
-
-	public ServerImpl() throws RemoteException {
+public class ServerImpl implements InterfazDeServer
+{
+	public ServerImpl() throws RemoteException
+	{
 		conectarBD();
 		UnicastRemoteObject.exportObject(this, 0);
 	}
@@ -32,14 +33,15 @@ public class ServerImpl implements InterfazDeServer{
 	//crear arreglo para respaldo de bd
 	private ArrayList<Persona> bd_empleados_copia = new ArrayList<>();
 	
-	public void conectarBD() {
+	public void conectarBD()
+	{
 		Connection connection = null;
 		Statement query = null;
 		//PreparedStatement test = null;
 		ResultSet resultados = null;
 		
-		
-		try {
+		try
+		{
 			String url = "jdbc:mysql://localhost:3306/ici4344";
 			String username = "root";
 			String password_BD = "";
@@ -53,7 +55,8 @@ public class ServerImpl implements InterfazDeServer{
 			
 			resultados = query.executeQuery(sql);
 			
-			while (resultados.next()) {
+			while (resultados.next())
+			{
 				int id = resultados.getInt("id_empleado");
 				String nombre = resultados.getString("nombre");
 				String apellido = resultados.getString("apellido1");
@@ -63,27 +66,31 @@ public class ServerImpl implements InterfazDeServer{
 				Persona newPersona = new Persona(id, nombre, apellido, creditos, tipo_jornada);
 				
 				bd_empleados_copia.add(newPersona);
-				
 			}
 			connection.close();
 			
-		} catch(SQLException e) {
+		}
+		catch(SQLException e)
+		{
 			e.printStackTrace();
 			System.out.println("No se pudo conectar a la BD :C");
 		}
 	}
 	
 	@Override
-	public ArrayList<Persona> getPersonas() throws RemoteException {
+	public ArrayList<Persona> getPersonas() throws RemoteException
+	{
 		// TODO Auto-generated method stub
 		return bd_empleados_copia;
 	}
 
 	@Override
-	public String getDataFromApi() {
+	public String getDataFromApi()
+	{
 		String output = null;
 		 
-		try {
+		try
+		{
             // URL de la API REST, el listado de APIs públicas está en: 
 			// https://github.com/juanbrujo/listado-apis-publicas-en-chile
             URL apiUrl = new URL("https://mindicador.cl/api");
@@ -104,17 +111,22 @@ public class ServerImpl implements InterfazDeServer{
                 String inputLine;
                 StringBuilder response = new StringBuilder();
 
-                while ((inputLine = in.readLine()) != null) {
+                while ((inputLine = in.readLine()) != null)
+				{
                     response.append(inputLine);
                 }
 
                 // Cierra la conexión y muestra la respuesta
                 in.close();
                 output = response.toString();
-            } else {
+            }
+			else
+			{
                 System.out.println("Error al conectar a la API. Código de respuesta: " + responseCode);
             }
-        } catch (Exception e) {
+        }
+		catch (Exception e)
+		{
             e.printStackTrace();
         }
 		//Como resultado tenemos un String output que contiene el JSON de la respuesta de la API
@@ -122,10 +134,12 @@ public class ServerImpl implements InterfazDeServer{
 	}
 
 	@Override
-	public Object[] getUF() throws RemoteException {
+	public Object[] getUF() throws RemoteException
+	{
 		String output = null;
 		 
-		try {
+		try
+		{
             // URL de la API REST, el listado de APIs públicas está en: 
 			// https://github.com/juanbrujo/listado-apis-publicas-en-chile
             URL apiUrl = new URL("https://mindicador.cl/api");
@@ -140,29 +154,36 @@ public class ServerImpl implements InterfazDeServer{
             int responseCode = connection.getResponseCode();
 
             // Procesa la respuesta si es exitosa
-            if (responseCode == HttpURLConnection.HTTP_OK) {
+            if (responseCode == HttpURLConnection.HTTP_OK)
+			{
                 // Lee la respuesta del servidor
                 BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String inputLine;
                 StringBuilder response = new StringBuilder();
 
-                while ((inputLine = in.readLine()) != null) {
+                while ((inputLine = in.readLine()) != null)
+				{
                     response.append(inputLine);
                 }
 
                 // Cierra la conexión y muestra la respuesta
                 in.close();
                 output = response.toString();
-            } else {
+            }
+			else
+			{
                 System.out.println("Error al conectar a la API. Código de respuesta: " + responseCode);
             }
-        } catch (Exception e) {
+        }
+		catch (Exception e)
+		{
             e.printStackTrace();
         }
 		//Como resultado tenemos un String output que contiene el JSON de la respuesta de la API
 		ObjectMapper objectMapper = new ObjectMapper();
 		
-		try {
+		try
+		{
 			JsonNode jsonNode = objectMapper.readTree(output);
 			String codigo = jsonNode.get("uf").get("codigo").asText(); 
 			String nombre = jsonNode.get("uf").get("nombre").asText();
@@ -172,13 +193,16 @@ public class ServerImpl implements InterfazDeServer{
 			
 			return new Object[] {codigo, nombre, fecha, unidad_medida, valor};
 			
-		}catch (JsonMappingException e) {
+		}
+		catch (JsonMappingException e)
+		{
 			e.printStackTrace();
-		}catch (JsonProcessingException e) {
+		}
+		catch (JsonProcessingException e)
+		{
 			e.printStackTrace();
 		}
 		
 		return null;
 	}
-	
 }

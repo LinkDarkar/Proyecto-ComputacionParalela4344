@@ -2,8 +2,8 @@ package common;
 
 import java.io.Serializable;
 
-public class Persona implements Serializable {
-
+public class Persona implements Serializable
+{
 	/**
 	 * 
 	 */
@@ -15,7 +15,8 @@ public class Persona implements Serializable {
 	private int creditos;
 	private String tipo_jornada;
 	
-	public Persona(int id_empleado, String nombre, String apellido, int creditos, String tipo_jornada) {
+	public Persona(int id_empleado, String nombre, String apellido, int creditos, String tipo_jornada)
+	{
 		this.setId_empleado(id_empleado);
 		this.setNombre(nombre);
 		this.setApellido(apellido);		
@@ -23,35 +24,44 @@ public class Persona implements Serializable {
 		this.setTipo_jornada(tipo_jornada);	
 	}
 	
-	public int getId_empleado() {
+	public int getId_empleado()
+	{
 		return id_empleado;
 	}
-	public void setId_empleado(int id_empleado) {
+	public void setId_empleado(int id_empleado)
+	{
 		this.id_empleado = id_empleado;
 	}
-	public String getNombre() {
+	public String getNombre()
+	{
 		return nombre;
 	}
-	public void setNombre(String nombre) {
+	public void setNombre(String nombre)
+	{
 		this.nombre = nombre;
 	}
-	public String getApellido() {
+	public String getApellido()
+	{
 		return apellido;
 	}
-	public void setApellido(String apellido) {
+	public void setApellido(String apellido)
+	{
 		this.apellido = apellido;
 	}
-	public int getCreditos() {
+	public int getCreditos()
+	{
 		return creditos;
 	}
-	public void setCreditos(int creditos) {
+	public void setCreditos(int creditos)
+	{
 		this.creditos = creditos;
 	}
-	public String getTipo_jornada() {
+	public String getTipo_jornada()
+	{
 		return tipo_jornada;
 	}
-	public void setTipo_jornada(String tipo_jornada) {
+	public void setTipo_jornada(String tipo_jornada)
+	{
 		this.tipo_jornada = tipo_jornada;
 	}
-	
 }

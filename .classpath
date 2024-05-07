@@ -15,5 +15,20 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="E:/Uni stuff/4° Año/Computación Paralela y Distribuida (ICI4344-1)/Proyecto/Proyecto-ComputacionParalela4344/Recursos/JARs/jackson JSON/jackson-annotations-2.14.0.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="E:/Uni stuff/4° Año/Computación Paralela y Distribuida (ICI4344-1)/Proyecto/Proyecto-ComputacionParalela4344/Recursos/JARs/jackson JSON/jackson-core-2.14.0.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="E:/Uni stuff/4° Año/Computación Paralela y Distribuida (ICI4344-1)/Proyecto/Proyecto-ComputacionParalela4344/Recursos/JARs/jackson JSON/jackson-databind-2.14.0.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="Código de proyecto/Ayudantia1/bin"/>
 </classpath>

@@ -7,28 +7,28 @@ import java.rmi.registry.Registry;
 import java.util.ArrayList;
 
 import common.InterfazDeServer;
-import common.Persona;
+import common.User;
 
 public class Cliente
 {
 	private InterfazDeServer server;
 	
 	public Cliente() {	}
+
 	public void startCliente() throws RemoteException, NotBoundException
 	{
 		Registry registry = LocateRegistry.getRegistry("localhost", 5000);
 		server = (InterfazDeServer) registry.lookup("server");
 	}
 	
-	public ArrayList<Persona> getPersonas() throws RemoteException
+	public ArrayList<User> getUsers() throws RemoteException
 	{
-		ArrayList<Persona> listado_empleados = server.getPersonas();
-		
+		ArrayList<User> listado_empleados = server.getUsers();
 		System.out.println("ID NOMBRE APELLIDO CREDITOS TIPO_JORNADA");
 		
 		for (int i = 0; i < listado_empleados.size(); i++)
 		{
-			Persona empleado = listado_empleados.get(i);
+			User empleado = listado_empleados.get(i);
 			String nombre, apellido, tipo_jornada;
 			int id_empleado, creditos;
 			

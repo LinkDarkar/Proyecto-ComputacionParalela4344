@@ -2,7 +2,7 @@ package common;
 
 import java.io.Serializable;
 
-public class Persona implements Serializable
+public class User implements Serializable
 {
 	/**
 	 * 
@@ -15,7 +15,7 @@ public class Persona implements Serializable
 	private int creditos;
 	private String tipo_jornada;
 	
-	public Persona(int id_empleado, String nombre, String apellido, int creditos, String tipo_jornada)
+	public User (int id_empleado, String nombre, String apellido, int creditos, String tipo_jornada)
 	{
 		this.setId_empleado(id_empleado);
 		this.setNombre(nombre);

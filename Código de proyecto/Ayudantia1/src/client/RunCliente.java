@@ -29,7 +29,7 @@ public class RunCliente
 			
 			if (bufferInput == '1')
 			{
-				cliente.getPersonas();
+				cliente.getUsers();
 				System.out.println("###");
 			}
 			else if (bufferInput == '2')
@@ -93,12 +93,12 @@ public class RunCliente
 
     private static void PrintPersons(Client client) throws RemoteException
     {
-        ArrayList<Person> BD_personas = client.getPersonas();
-        for (int i = 0; i < BD_personas.size(); i += 1)
+        ArrayList<Person> BD_Users = client.getUsers();
+        for (int i = 0; i < BD_Users.size(); i += 1)
     	{
             System.out.println("Person number: " + i);
-            System.out.println("Name: " + BD_personas.get(i).getName());
-            System.out.println("Age: " + BD_personas.get(i).getAge());
+            System.out.println("Name: " + BD_Users.get(i).getName());
+            System.out.println("Age: " + BD_Users.get(i).getAge());
             System.out.println("-------------------------------------");
     	}
     }

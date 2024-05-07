@@ -20,42 +20,67 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import common.InterfazDeServer;
-import common.Persona;
+import common.Product;
+import common.User;
 
 public class ServerImpl implements InterfazDeServer
 {
 	public ServerImpl() throws RemoteException
 	{
-		conectarBD();
+		this.connectToBD();
 		UnicastRemoteObject.exportObject(this, 0);
 	}
 	
-	//crear arreglo para respaldo de bd
-	private ArrayList<Persona> bd_empleados_copia = new ArrayList<>();
-	
-	public void conectarBD()
+	// crear arreglo para respaldo de bd
+	// to save a copy of the database for easier and faster access
+	private ArrayList<User> databaseUsersCopy = new ArrayList<>();
+	private ArrayList<Products> databaseProductsCopy = new ArrayList<>();
+
+	public void connectToBD()
 	{
 		Connection connection = null;
 		Statement query = null;
+		ResultSet productsSet = null;
+		ResultSet userSet = null;
+		// PreparedStatement has some security barriers so that the code that the user ends up sending
+		// isn't immediately executed by the server
 		//PreparedStatement test = null;
-		ResultSet resultados = null;
 		
 		try
 		{
-			String url = "jdbc:mysql://localhost:3306/ici4344";
+			// localhost:(Port in the MySQL section in XAMPP)/(Databasename)
+			// does it even work if the name has spaces?????
+			String url = "jdbc:mysql://localhost:3306/proyecto computación paralela";
 			String username = "root";
-			String password_BD = "";
-			
+			String password_BD = "";			// surely nothing bad will happen right???	
 			connection = DriverManager.getConnection(url, username, password_BD);
 			
 			//TODO Metodos con la BD
+			// apparently we have to make the commands like this to do shit
 			query = connection.createStatement();
-			String sql = "SELECT * FROM bd_acme";
+			String sqlProducts = "SELECT * FROM products";
+			String sqlUsers = "SELECT * FROM users";
+			productsSet = query.executeQuery(sqlProducts);
+			userSet = query.executeQuery(sqlUsers);
+			
 			//INSERT para agregar datos a la BD, PreparedStatement
 			
-			resultados = query.executeQuery(sql);
+			// iterates through resultados to get the actually usefull information from resultados
+			// so it can copy them into the list
+			// I think we would have to do that for both products and users
+			while (productsSet.next())
+			{
+				int id = productsSet.getInt("id_empleado");
+				String nombre = resultados.getString("nombre");
+				String apellido = resultados.getString("apellido1");
+				int creditos = resultados.getInt("creditos");
+				String tipo_jornada = resultados.getString("tipo_jornada");
+				
+				User newUser = new User(id, nombre, apellido, creditos, tipo_jornada);
+				databaseUsersCopy.add(newUser);
+			}
 			
-			while (resultados.next())
+			while (productsSet.next())
 			{
 				int id = resultados.getInt("id_empleado");
 				String nombre = resultados.getString("nombre");
@@ -63,25 +88,23 @@ public class ServerImpl implements InterfazDeServer
 				int creditos = resultados.getInt("creditos");
 				String tipo_jornada = resultados.getString("tipo_jornada");
 				
-				Persona newPersona = new Persona(id, nombre, apellido, creditos, tipo_jornada);
-				
-				bd_empleados_copia.add(newPersona);
+				User newUser = new User(id, nombre, apellido, creditos, tipo_jornada);
+				databaseUsersCopy.add(newUser);
 			}
 			connection.close();
-			
 		}
-		catch(SQLException e)
+		catch(SQLException sqlException)
 		{
-			e.printStackTrace();
-			System.out.println("No se pudo conectar a la BD :C");
+			sqlException.printStackTrace();
+			System.out.println("Could not connect to the database");
 		}
 	}
 	
 	@Override
-	public ArrayList<Persona> getPersonas() throws RemoteException
+	public ArrayList<User> getUsers() throws RemoteException
 	{
 		// TODO Auto-generated method stub
-		return bd_empleados_copia;
+		return databaseUsersCopy;
 	}
 
 	@Override

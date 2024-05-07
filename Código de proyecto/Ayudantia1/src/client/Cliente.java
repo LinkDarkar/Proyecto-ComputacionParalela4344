@@ -23,22 +23,25 @@ public class Cliente
 	
 	public ArrayList<User> getUsers() throws RemoteException
 	{
-		ArrayList<User> listado_empleados = server.getUsers();
+		ArrayList<User> userList = server.getUsers();
 		System.out.println("ID NOMBRE APELLIDO CREDITOS TIPO_JORNADA");
 		
-		for (int i = 0; i < listado_empleados.size(); i++)
+		for (int i = 0; i < userList.size(); i++)
 		{
-			User empleado = listado_empleados.get(i);
-			String nombre, apellido, tipo_jornada;
-			int id_empleado, creditos;
+			User user = userList.get(i);
+			int userId;
+			String userName;
+			String password;
+			int location;
 			
-			id_empleado = empleado.getId_empleado();
-			nombre = empleado.getNombre();
-			apellido = empleado.getApellido();
-			creditos = empleado.getCreditos();
-			tipo_jornada = empleado.getTipo_jornada();
+			// it isn't really necessary to have these variables no?
+			// like... you could just print directly from the list, right?
+			userId = user.getUserId();
+			userName = user.getUserName();
+			password = user.getPassword();
+			location = user.getLocation();
 			
-			System.out.println(id_empleado + " " + nombre + " "+ apellido + " " + creditos + " " + tipo_jornada);
+			System.out.println(userId + " " + userName + " "+ password + " " + location);
 		}
 		
 		return null;

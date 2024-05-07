@@ -34,7 +34,7 @@ public class ServerImpl implements InterfazDeServer
 	// crear arreglo para respaldo de bd
 	// to save a copy of the database for easier and faster access
 	private ArrayList<User> databaseUsersCopy = new ArrayList<>();
-	private ArrayList<Products> databaseProductsCopy = new ArrayList<>();
+	private ArrayList<Product> databaseProductsCopy = new ArrayList<>();
 
 	public void connectToBD()
 	{
@@ -70,25 +70,24 @@ public class ServerImpl implements InterfazDeServer
 			// I think we would have to do that for both products and users
 			while (productsSet.next())
 			{
-				int id = productsSet.getInt("id_empleado");
-				String nombre = resultados.getString("nombre");
-				String apellido = resultados.getString("apellido1");
-				int creditos = resultados.getInt("creditos");
-				String tipo_jornada = resultados.getString("tipo_jornada");
+				int productId = productsSet.getInt("productId");
+				String productName = productsSet.getString("productName");
+				String productDescription = productsSet.getString("productDescription");
+				int productCurrency = productsSet.getInt("productCurrency");
+				int productPrice = productsSet.getInt("productPrice");
 				
-				User newUser = new User(id, nombre, apellido, creditos, tipo_jornada);
-				databaseUsersCopy.add(newUser);
+				Product newProduct = new Product (productId, productName, productDescription, productCurrency, productPrice);
+				databaseProductsCopy.add(newProduct);
 			}
 			
-			while (productsSet.next())
+			while (userSet.next())
 			{
-				int id = resultados.getInt("id_empleado");
-				String nombre = resultados.getString("nombre");
-				String apellido = resultados.getString("apellido1");
-				int creditos = resultados.getInt("creditos");
-				String tipo_jornada = resultados.getString("tipo_jornada");
+				int userId = userSet.getInt("userId");
+				String userName = userSet.getString("userName");
+				String password = userSet.getString("password");
+				int location = userSet.getInt("location");
 				
-				User newUser = new User(id, nombre, apellido, creditos, tipo_jornada);
+				User newUser = new User (userId, userName, password, location);
 				databaseUsersCopy.add(newUser);
 			}
 			connection.close();

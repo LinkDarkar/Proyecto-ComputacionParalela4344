@@ -7,61 +7,51 @@ public class User implements Serializable
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;	// ?????
 	
-	private int id_empleado;
-	private String nombre;
-	private String apellido;
-	private int creditos;
-	private String tipo_jornada;
+	private int userId;
+	private String userName;
+	private String password;
+	private int location;
 	
-	public User (int id_empleado, String nombre, String apellido, int creditos, String tipo_jornada)
+	public User (int userId, String userName, String password, int location)
 	{
-		this.setId_empleado(id_empleado);
-		this.setNombre(nombre);
-		this.setApellido(apellido);		
-		this.setCreditos(creditos);	
-		this.setTipo_jornada(tipo_jornada);	
+		this.setUserId(userId);
+		this.setUserName(userName);
+		this.setPassword(password);		
+		this.setLocation(location);	
 	}
 	
-	public int getId_empleado()
+	public int getUserId()
 	{
-		return id_empleado;
+		return userId;
 	}
-	public void setId_empleado(int id_empleado)
+	public void setUserId(int userId)
 	{
-		this.id_empleado = id_empleado;
+		this.userId = userId;
 	}
-	public String getNombre()
+	public String getUserName()
 	{
-		return nombre;
+		return userName;
 	}
-	public void setNombre(String nombre)
+	public void setUserName(String userName)
 	{
-		this.nombre = nombre;
+		this.userName = userName;
 	}
-	public String getApellido()
+	public String getPassword()
 	{
-		return apellido;
+		return password;
 	}
-	public void setApellido(String apellido)
+	public void setPassword(String password)
 	{
-		this.apellido = apellido;
+		this.password = password;
 	}
-	public int getCreditos()
+	public int getLocation()
 	{
-		return creditos;
+		return location;
 	}
-	public void setCreditos(int creditos)
+	public void setLocation(int location)
 	{
-		this.creditos = creditos;
-	}
-	public String getTipo_jornada()
-	{
-		return tipo_jornada;
-	}
-	public void setTipo_jornada(String tipo_jornada)
-	{
-		this.tipo_jornada = tipo_jornada;
+		this.location = location;
 	}
 }

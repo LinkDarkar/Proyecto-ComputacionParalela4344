@@ -6,44 +6,29 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
 
-import common.InterfazDeServer;
+import common.ServerInterface;
 import common.User;
 
-public class Cliente
+public class Client
 {
-	private InterfazDeServer server;
+	private ServerInterface server;
 	
-	public Cliente() {	}
+	public Client() {	}
 
-	public void startCliente() throws RemoteException, NotBoundException
+	public void startClient() throws RemoteException, NotBoundException
 	{
 		Registry registry = LocateRegistry.getRegistry("localhost", 5000);
-		server = (InterfazDeServer) registry.lookup("server");
+		server = (ServerInterface) registry.lookup("server");
 	}
 	
-	public ArrayList<User> getUsers() throws RemoteException
+	public ArrayList<User> printUsers() throws RemoteException
 	{
 		ArrayList<User> userList = server.getUsers();
-		System.out.println("ID NOMBRE APELLIDO CREDITOS TIPO_JORNADA");
-		
+		System.out.println("ID UserName Password Location");
 		for (int i = 0; i < userList.size(); i++)
-		{
-			User user = userList.get(i);
-			int userId;
-			String userName;
-			String password;
-			int location;
-			
-			// it isn't really necessary to have these variables no?
-			// like... you could just print directly from the list, right?
-			userId = user.getUserId();
-			userName = user.getUserName();
-			password = user.getPassword();
-			location = user.getLocation();
-			
-			System.out.println(userId + " " + userName + " "+ password + " " + location);
+		{	
+			System.out.println(userList.get(i).getUserId() + " " + userList.get(i).getUserName() + " " + userList.get(i).getPassword() + " " + userList.get(i).getLocation());
 		}
-		
 		return null;
 	}
 	

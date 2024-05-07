@@ -4,7 +4,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public interface InterfazDeServer extends Remote
+public interface ServerInterface extends Remote
 {
 	// have functions that the client is going to be able to access, preferably in the order that
 	// are going to be presented to them

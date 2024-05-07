@@ -19,11 +19,11 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import common.InterfazDeServer;
 import common.Product;
+import common.ServerInterface;
 import common.User;
 
-public class ServerImpl implements InterfazDeServer
+public class ServerImpl implements ServerInterface
 {
 	public ServerImpl() throws RemoteException
 	{

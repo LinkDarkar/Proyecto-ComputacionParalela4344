@@ -7,6 +7,8 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+import common.User;
+
 // import javax.swing.JFrame;
 // import java.awt.*;
 // import java.awt.event.KeyEvent;
@@ -16,6 +18,7 @@ public class RunClient
 {
 	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static Client client = new Client();
+    static boolean debugFlag = true;
 
 	public static void main(String[] args) throws NotBoundException, IOException
 	{
@@ -23,7 +26,11 @@ public class RunClient
         boolean hasThingsToDo = true;
         boolean loggedIn = false;
         int userInput;
-        System.out.println("a: " +  client.server);
+        String tempUserName = null;
+        String tempPassword = null;
+        int tempLocation;
+        User currentUser = null;
+        int productMenuSize;
         
         while (hasThingsToDo)
         {
@@ -32,20 +39,23 @@ public class RunClient
                 if (loggedIn == true)
                 {
                     // show other menu
-                    System.out.println("Amazing Menu that has other options that work: \n1) get api (test debug) \n2) Add Person to the list \n3) Quit");
+                    // \n2) Buy Product
+                    System.out.println("Amazing Menu that has other options that work: \n1) See products \n2) Quit");
                     userInput = Integer.parseInt(br.readLine());
                     switch (userInput)
                     {
                         case 1:
                             // client.printUsers();
-                            client.getDataFromApi();
-                            System.err.println("logged in!");
+                            productMenuSize = client.printProducts(currentUser.getLocation());
+                            System.err.println("These are the current available products");
                             break;
+/*
                         case 2:
                             // AddPerson(client);
                             System.err.println("rip bozo lol, lmao");
                             break;
-                        case 3:
+*/
+                        case 2:
                             hasThingsToDo = false;
                             System.out.println("Quitting...");
                             break;
@@ -61,10 +71,24 @@ public class RunClient
                     switch (userInput)
                     {
                         case 1:
-                            if (client.Login("john2hu","2hu"))
+                            System.out.println("Type username:");
+                            tempUserName = br.readLine();
+                            System.out.println("Type password:");
+                            tempPassword = br.readLine();
+                            
+                            currentUser = client.Login(tempUserName, tempPassword);
+                            if (currentUser != null)
                             {
                                 System.err.println("logged in!");
                                 loggedIn = true;
+                                client.getDataFromApi();
+                            }
+                            else if (debugFlag)
+                            {
+                                System.err.println("LOGGED IN BY DEBUG");
+                                currentUser = client.Login("john2hu", "2hu");
+                                loggedIn = true;
+                                client.getDataFromApi();
                             }
                             else
                             {
@@ -73,7 +97,32 @@ public class RunClient
                             }
                             break;
                         case 2:
-                            System.err.println("rip bozo lol, lmao");
+                            System.out.println("Type username:");
+                            tempUserName = br.readLine();
+                            System.out.println("Type password:");
+                            tempPassword = br.readLine();
+                            System.out.println("Type location 0 = a ... 4 = b");
+                            while (true)
+                            {
+                                try
+                                {
+                                    tempLocation = Integer.parseInt(br.readLine());
+                                }
+                                catch (NumberFormatException numberFormatException)
+                                {
+                                    System.err.println("Invalid input. Try again with a valid number.");
+                                    continue;
+                                }
+                                break;
+                            }
+                            if (client.CreateAccount(tempUserName, tempPassword, tempLocation))
+                            {
+                                System.out.println("Sign up succesful. Now you can go to login to enter.");
+                            }
+                            else
+                            {
+                                System.out.println("Sign up error. Try again with a different username.");
+                            }
                             break;
                         case 3:
                             hasThingsToDo = false;

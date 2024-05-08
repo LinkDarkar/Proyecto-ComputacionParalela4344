@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import common.LOCATION;
 import common.Product;
 import common.ServerInterface;
 import common.User;
@@ -31,32 +32,31 @@ public class ServerImpl implements ServerInterface
 		UnicastRemoteObject.exportObject(this, 0);
 	}
 	
+	private Connection connection = null;
+	private String url;
+	private String username;
+	private String password_BD;
 	// crear arreglo para respaldo de bd
 	// to save a copy of the database for easier and faster access
 	private ArrayList<String> jsonListFromAPI = new ArrayList<>();
-	private ArrayList<Double> exchangeList = new ArrayList<>();
+	// private ArrayList<Double> exchangeList = new ArrayList<>();
 	private ArrayList<User> databaseUsersCopy = new ArrayList<>();
-	private ArrayList<Product> databaseProductsCopy = new ArrayList<>();
+	private ArrayList<Product> databaseProductsCopy = new ArrayList<Product>();
 
 	public void connectToBD()
 	{
-		Connection connection = null;
 		Statement queryProducts = null;
 		Statement queryUsers = null;
 		ResultSet productsSet = null;
 		ResultSet userSet = null;
-		// PreparedStatement has some security barriers so that the code that the user ends up sending
-		// isn't immediately executed by the server
-		// PreparedStatement test = null;
 		
 		try
 		{
-			String url = "jdbc:mysql://localhost:3306/proyectoici4344";
-			String username = "root";
-			String password_BD = "";			// surely nothing bad will happen right???	
-			connection = DriverManager.getConnection(url, username, password_BD);
+			this.url = "jdbc:mysql://localhost:3306/proyectoici4344";
+			this.username = "root";
+			this.password_BD = "";
+			this.connection = DriverManager.getConnection(this.url, this.username, this.password_BD);
 			
-			//TODO Metodos con la BD
 			// apparently we have to make the commands like this to do shit
 			queryProducts = connection.createStatement();
 			queryUsers = connection.createStatement();
@@ -75,19 +75,19 @@ public class ServerImpl implements ServerInterface
 				int productPrice = productsSet.getInt("productPrice");
 				
 				Product newProduct = new Product (productId, productName, productDescription, productCurrency, productPrice);
-				databaseProductsCopy.add(newProduct);
+				this.databaseProductsCopy.add(newProduct);
 			}
 			while (userSet.next())
 			{
-				int userId = userSet.getInt("userId");
+				// int userId = userSet.getInt("userId");
 				String userName = userSet.getString("userName");
 				String password = userSet.getString("password");
 				int location = userSet.getInt("location");
 				
-				User newUser = new User (userId, userName, password, location);
+				User newUser = new User (/*userId,*/ userName, password, location);
 				databaseUsersCopy.add(newUser);
 			}
-			connection.close();
+			this.connection.close();
 		}
 		catch(SQLException sqlException)
 		{
@@ -97,24 +97,51 @@ public class ServerImpl implements ServerInterface
 	}
 	
 	@Override
-	public ArrayList<User> getUsers() throws RemoteException
+	public ArrayList<Product> getProducts() throws RemoteException
 	{
-		// TODO Auto-generated method stub
-		return databaseUsersCopy;
+		return this.databaseProductsCopy;
 	}
 
 	@Override
-	public boolean Login(String userName, String password) throws RemoteException
+	public User Login (String userName, String password) throws RemoteException
 	{
 		for (User user : databaseUsersCopy)
 		{
 			if (user.getUserName().equals(userName) && user.getPassword().equals(password))
 			{
-				System.err.println("Logeado en la cuenta de " + userName);
-				return true;
+				System.err.println("Logeado en la cuenta de: " + userName);
+				return user;
 			}
 		}
-		return false;
+		return null;
+	}
+
+	@Override
+	public boolean CreateAccount (String userName, String password, int location) throws RemoteException
+	{
+		for (User user : databaseUsersCopy)
+		{
+			if (userName.equals(user.getUserName()))
+			{
+				return false;
+			}
+		}
+		try
+		{
+			this.connection = DriverManager.getConnection(this.url, this.username, this.password_BD);
+			// System.out.println("INTENTA COSA");
+			this.connection.prepareStatement("INSERT INTO users (userName, password, location) VALUES ('"+ userName +"', '"+ password +"', "+ location +")")
+								.executeUpdate();
+			this.connection.close();
+		}
+		catch (SQLException sqlException)
+		{
+			System.err.println("Error when creating account.");
+			sqlException.printStackTrace();
+			return false;
+		}
+		databaseUsersCopy.add(new User(userName, password, location));
+		return true;
 	}
 
 	@Override
@@ -128,29 +155,31 @@ public class ServerImpl implements ServerInterface
 			URL apiUrlToARS = new URL("https://cl.dolarapi.com/v1/cotizaciones/ars");
 			URL apiUrlToUYU = new URL("https://cl.dolarapi.com/v1/cotizaciones/uyu");
 
-			this.jsonListFromAPI.add(GetJsonFromAPI(apiUrlToUSD));
-			this.jsonListFromAPI.add(GetJsonFromAPI(apiUrlToEUR));
-			this.jsonListFromAPI.add(GetJsonFromAPI(apiUrlToBRL));
-			this.jsonListFromAPI.add(GetJsonFromAPI(apiUrlToARS));
-			this.jsonListFromAPI.add(GetJsonFromAPI(apiUrlToUYU));
+			this.jsonListFromAPI.add(GetJsonFromAPI(apiUrlToUSD));		// -> 1
+			this.jsonListFromAPI.add(GetJsonFromAPI(apiUrlToEUR));		// -> 2
+			this.jsonListFromAPI.add(GetJsonFromAPI(apiUrlToBRL));		// -> 3
+			this.jsonListFromAPI.add(GetJsonFromAPI(apiUrlToARS));		// -> 4
+			this.jsonListFromAPI.add(GetJsonFromAPI(apiUrlToUYU));		// -> 5
         }
 		catch (Exception exception)
 		{
             exception.printStackTrace();
         }
 		//Como resultado tenemos un String output que contiene el JSON de la respuesta de la API
+/*
 		try
 		{
 			for (String tempJson : this.jsonListFromAPI)
 			{
 				System.out.println("Json: " + tempJson);
-				this.exchangeList.add(GetExchange(tempJson));
+				// this.exchangeList.add(GetExchange(tempJson));
 			}
 		}
 		catch (RemoteException remoteException)
 		{
 			remoteException.printStackTrace();
 		}
+*/
 		return this.jsonListFromAPI;
 	}
 
@@ -192,10 +221,10 @@ public class ServerImpl implements ServerInterface
 	}
 
 	@Override
-	public Double GetExchange(String json) throws RemoteException
+	public Double GetExchange (int location) throws RemoteException
 	{
+		String json = this.jsonListFromAPI.get(location);
 		ObjectMapper objectMapper = new ObjectMapper();
-
 		try
 		{
 			JsonNode jsonNode = objectMapper.readTree(json);

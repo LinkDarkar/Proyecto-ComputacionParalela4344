@@ -6,11 +6,9 @@ import java.util.ArrayList;
 
 public interface ServerInterface extends Remote
 {
-	// have functions that the client is going to be able to access, preferably in the order that
-	// are going to be presented to them
-	// TODO change them to what we need
-	ArrayList<User> getUsers() throws RemoteException;
-	boolean Login(String userName, String password) throws RemoteException;
+	ArrayList<Product> getProducts() throws RemoteException;
+	User Login(String userName, String password) throws RemoteException;
+	boolean CreateAccount(String userName, String password, int location) throws RemoteException;
 	ArrayList<String> GetDataFromApi() throws RemoteException;
-	Double GetExchange(String json) throws RemoteException;
+	Double GetExchange(int location) throws RemoteException;
 }

@@ -12,11 +12,11 @@ public class User implements Serializable
 	private int userId;
 	private String userName;
 	private String password;
-	private int location;
+	private LOCATION location;
 	
-	public User (int userId, String userName, String password, int location)
+	public User (/*int userId,*/ String userName, String password, int location)
 	{
-		this.setUserId(userId);
+		// this.setUserId(userId);
 		this.setUserName(userName);
 		this.setPassword(password);		
 		this.setLocation(location);	
@@ -46,12 +46,18 @@ public class User implements Serializable
 	{
 		this.password = password;
 	}
-	public int getLocation()
+	public LOCATION getLocation()
 	{
 		return location;
 	}
 	public void setLocation(int location)
 	{
-		this.location = location;
+		for (LOCATION tempLocation : LOCATION.values())
+		{
+			if (tempLocation.value == location)
+			{
+				this.location = tempLocation;
+			}
+		}
 	}
 }

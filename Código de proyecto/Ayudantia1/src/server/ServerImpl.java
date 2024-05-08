@@ -209,6 +209,10 @@ public class ServerImpl implements ServerInterface
 	@Override
 	public Double GetExchange (int location) throws RemoteException
 	{
+		if (location == 0)
+		{
+			return 1.0;
+		}
 		String json = this.jsonListFromAPI.get(location);
 		ObjectMapper objectMapper = new ObjectMapper();
 		try

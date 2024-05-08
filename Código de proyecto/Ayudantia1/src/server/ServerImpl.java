@@ -155,36 +155,17 @@ public class ServerImpl implements ServerInterface
 			URL apiUrlToARS = new URL("https://cl.dolarapi.com/v1/cotizaciones/ars");
 			URL apiUrlToUYU = new URL("https://cl.dolarapi.com/v1/cotizaciones/uyu");
 
+			this.jsonListFromAPI.add("0");
 			this.jsonListFromAPI.add(GetJsonFromAPI(apiUrlToUSD));		// -> 1
 			this.jsonListFromAPI.add(GetJsonFromAPI(apiUrlToEUR));		// -> 2
 			this.jsonListFromAPI.add(GetJsonFromAPI(apiUrlToBRL));		// -> 3
 			this.jsonListFromAPI.add(GetJsonFromAPI(apiUrlToARS));		// -> 4
 			this.jsonListFromAPI.add(GetJsonFromAPI(apiUrlToUYU));		// -> 5
-			// for some reason this gets disorganized when actually using the code
-			// this being the reason why LOCATION has it's values in a different order than
-			// what's being shown here, I have no idea why that's happening
-			// these are supposed to be added in the implemented order no???
-			//	゜(　ﾟ∀ﾟ)o彡えーりん！えーりん！助けてえーりん！
         }
 		catch (Exception exception)
 		{
             exception.printStackTrace();
         }
-		//Como resultado tenemos un String output que contiene el JSON de la respuesta de la API
-/*
-		try
-		{
-			for (String tempJson : this.jsonListFromAPI)
-			{
-				System.out.println("Json: " + tempJson);
-				// this.exchangeList.add(GetExchange(tempJson));
-			}
-		}
-		catch (RemoteException remoteException)
-		{
-			remoteException.printStackTrace();
-		}
-*/
 		return this.jsonListFromAPI;
 	}
 

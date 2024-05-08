@@ -99,7 +99,7 @@ public class RunClient
                             tempUserName = br.readLine();
                             System.out.println("Type password:");
                             tempPassword = br.readLine();
-                            System.out.println("Type location 0 = CHILE | 1 = EUROPE | 2 = BRAZIL | 3 = ARGENTINA | 4 = URUGUAY | 5 = US");
+                            System.out.println("Type location 0 = CHILE | 1 = US | 2 = EUROPE | 3 = BRAZIL | 4 = ARGENTINA | 5 = URUGUAY");
                             while (true)
                             {
                                 try

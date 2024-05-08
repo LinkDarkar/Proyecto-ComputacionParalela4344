@@ -11,14 +11,14 @@ import common.User;
 
 public class Client
 {
-	private ServerInterface server;
-	
+	public ServerInterface server;
 	public Client() {	}
 
 	public void startClient() throws RemoteException, NotBoundException
 	{
-		Registry registry = LocateRegistry.getRegistry("localhost", 5000);
-		server = (ServerInterface) registry.lookup("server");
+		Registry registry = LocateRegistry.getRegistry("localhost", 5050);
+		System.out.println("registry : " + registry.hashCode());
+		this.server = (ServerInterface) registry.lookup("server");
 	}
 	
 	public ArrayList<User> printUsers() throws RemoteException
@@ -32,15 +32,15 @@ public class Client
 		return null;
 	}
 	
-	String getDataFromApi() throws RemoteException
+	public ArrayList<String> getDataFromApi() throws RemoteException
 	{
-		return server.getDataFromApi();
+		return server.GetDataFromApi();
 	}
 	
-	Object[] getUF() throws RemoteException
+	Double GetExchange() throws RemoteException
 	{
-		Object[] valores_de_uf = server.getUF();
-		
+		// Object[] valores_de_uf = server.GetExchange();
+		/*
 		if(valores_de_uf == null)
 		{
 			System.out.println("Hubo un error, no llego nada de la API");
@@ -57,7 +57,8 @@ public class Client
 			System.out.println("Los valores obtenidos para la UF son:");
 			System.out.println(codigo + " " + nombre + " " + fecha + " " + unidad_medida + " " + valor);
 		}
-		
-		return valores_de_uf;
+		*/
+		// return valores_de_uf;
+		return null;
 	}
 }

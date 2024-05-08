@@ -19,7 +19,6 @@ public class Client
 	public void startClient() throws RemoteException, NotBoundException
 	{
 		Registry registry = LocateRegistry.getRegistry("localhost", 5050);
-		System.out.println("registry : " + registry.hashCode());
 		this.server = (ServerInterface) registry.lookup("server");
 	}
 	

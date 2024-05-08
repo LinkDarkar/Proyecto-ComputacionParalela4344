@@ -40,7 +40,7 @@ public class RunClient
                 {
                     // show other menu
                     // \n2) Buy Product
-                    System.out.println("Amazing Menu that has other options that work: \n1) See products \n2) Quit");
+                    System.out.println("Store: \n1) See products \n2) Quit");
                     userInput = Integer.parseInt(br.readLine());
                     switch (userInput)
                     {
@@ -101,7 +101,7 @@ public class RunClient
                             tempUserName = br.readLine();
                             System.out.println("Type password:");
                             tempPassword = br.readLine();
-                            System.out.println("Type location 0 = a ... 4 = b");
+                            System.out.println("Type location 0 = Chile | 1 = US | 2 = EU | 3 = BRAZIL | 4 = ARGENTINA");
                             while (true)
                             {
                                 try
@@ -141,47 +141,4 @@ public class RunClient
             }
         }
 	}
-
-    private static void AddPerson(Client client) throws IOException
-    {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        String newName = "";
-        int newAge = 0;
-
-        boolean hasThingsToDo = true;
-        int index = 0;
-        while(hasThingsToDo)
-        {
-            if (index == 0)
-            {
-                System.out.print("Enter name: ");
-                newName = br.readLine();
-                System.out.println("");
-                index = 1;
-            }
-            else if (index == 1)
-            {
-                try
-                {
-                    System.out.print("Enter age: ");
-                    newAge = Integer.parseInt(br.readLine());
-                    System.out.println("");
-                }
-                catch (NumberFormatException exception)
-                {
-                    System.out.println("Invalid input. Try again with a valid number.");
-                    continue;
-                }
-                index = 2;
-            }
-            else
-            {
-                hasThingsToDo = false;
-                // client.createPerson(newName, newAge);
-                System.out.println("Creation succesfull");
-                System.out.println("Returning to menu...");
-            }
-        }
-    }
 }

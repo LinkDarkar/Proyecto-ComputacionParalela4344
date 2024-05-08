@@ -42,32 +42,32 @@ public class Client
 				System.out.print(" " + (productList.get(i).getProductPrice()));
 			}
 
-			// QUE SI QUE ESTA FEO LUEGO SE CAMBIA
 			// maybe an array??????? and get the string from the value?
-			// would have to edit 
+			// would have to edit
+			// same as in ServerImpl, no idea why the values get scrambled 
 			if (location.value == 0)
 			{
 				System.out.println(" CLP");
 			}
 			if (location.value == 1)
 			{
-				System.out.println(" USD");
+				System.out.println(" EUR");
 			}
 			if (location.value == 2)
 			{
-				System.out.println(" EUR");
+				System.out.println(" BRL");
 			}
 			if (location.value == 3)
 			{
-				System.out.println(" BRL");
+				System.out.println(" ARS");
 			}
 			if (location.value == 4)
 			{
-				System.out.println(" ARS");
+				System.out.println(" UYU");
 			}
 			if (location.value == 5)
 			{
-				System.out.println(" UYU");
+				System.out.println(" USD");
 			}
 		}
 		return productList.size();

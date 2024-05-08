@@ -109,7 +109,7 @@ public class ServerImpl implements ServerInterface
 		{
 			if (user.getUserName().equals(userName) && user.getPassword().equals(password))
 			{
-				System.err.println("Logeado en la cuenta de: " + userName);
+				System.err.println("Logged into account: " + userName);
 				return user;
 			}
 		}
@@ -160,6 +160,11 @@ public class ServerImpl implements ServerInterface
 			this.jsonListFromAPI.add(GetJsonFromAPI(apiUrlToBRL));		// -> 3
 			this.jsonListFromAPI.add(GetJsonFromAPI(apiUrlToARS));		// -> 4
 			this.jsonListFromAPI.add(GetJsonFromAPI(apiUrlToUYU));		// -> 5
+			// for some reason this gets disorganized when actually using the code
+			// this being the reason why LOCATION has it's values in a different order than
+			// what's being shown here, I have no idea why that's happening
+			// these are supposed to be added in the implemented order no???
+			//	゜(　ﾟ∀ﾟ)o彡えーりん！えーりん！助けてえーりん！
         }
 		catch (Exception exception)
 		{

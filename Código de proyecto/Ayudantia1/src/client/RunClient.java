@@ -45,14 +45,12 @@ public class RunClient
                     switch (userInput)
                     {
                         case 1:
-                            // client.printUsers();
                             productMenuSize = client.printProducts(currentUser.getLocation());
                             System.err.println("These are the current available products");
                             break;
 /*
                         case 2:
                             // AddPerson(client);
-                            System.err.println("rip bozo lol, lmao");
                             break;
 */
                         case 2:
@@ -101,7 +99,7 @@ public class RunClient
                             tempUserName = br.readLine();
                             System.out.println("Type password:");
                             tempPassword = br.readLine();
-                            System.out.println("Type location 0 = Chile | 1 = US | 2 = EU | 3 = BRAZIL | 4 = ARGENTINA");
+                            System.out.println("Type location 0 = CHILE | 1 = EUROPE | 2 = BRAZIL | 3 = ARGENTINA | 4 = URUGUAY | 5 = US");
                             while (true)
                             {
                                 try

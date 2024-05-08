@@ -36,6 +36,11 @@ public class Client
 	{
 		return server.GetDataFromApi();
 	}
+
+	public boolean Login(String userName, String password) throws RemoteException
+	{
+		return server.Login(userName, password);
+	}
 	
 	Double GetExchange() throws RemoteException
 	{

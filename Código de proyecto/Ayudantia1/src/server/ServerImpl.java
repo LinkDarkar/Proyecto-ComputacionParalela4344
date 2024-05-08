@@ -104,6 +104,20 @@ public class ServerImpl implements ServerInterface
 	}
 
 	@Override
+	public boolean Login(String userName, String password) throws RemoteException
+	{
+		for (User user : databaseUsersCopy)
+		{
+			if (user.getUserName().equals(userName) && user.getPassword().equals(password))
+			{
+				System.err.println("Logeado en la cuenta de " + userName);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
 	public ArrayList<String> GetDataFromApi()
 	{
 		try
@@ -181,7 +195,7 @@ public class ServerImpl implements ServerInterface
 	public Double GetExchange(String json) throws RemoteException
 	{
 		ObjectMapper objectMapper = new ObjectMapper();
-		
+
 		try
 		{
 			JsonNode jsonNode = objectMapper.readTree(json);

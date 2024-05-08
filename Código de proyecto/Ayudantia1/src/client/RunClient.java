@@ -29,11 +29,11 @@ public class RunClient
         {
             try
             {
-                userInput = Integer.parseInt(br.readLine());
                 if (loggedIn == true)
                 {
                     // show other menu
                     System.out.println("Amazing Menu that has other options that work: \n1) get api (test debug) \n2) Add Person to the list \n3) Quit");
+                    userInput = Integer.parseInt(br.readLine());
                     switch (userInput)
                     {
                         case 1:
@@ -57,15 +57,22 @@ public class RunClient
                 else
                 {
                     System.out.println("Menu: \n1) login \n2) sign in \n3) Quit");
+                    userInput = Integer.parseInt(br.readLine());
                     switch (userInput)
                     {
                         case 1:
-                            // client.printUsers();
-                            System.err.println("logged in!");
-                            loggedIn = true;
+                            if (client.Login("john2hu","2hu"))
+                            {
+                                System.err.println("logged in!");
+                                loggedIn = true;
+                            }
+                            else
+                            {
+                                System.err.println("Couldn't log in. Username or Password were incorrect.");
+                                System.err.println("If you don't have an account use Sign In to create one.");
+                            }
                             break;
                         case 2:
-                            // AddPerson(client);
                             System.err.println("rip bozo lol, lmao");
                             break;
                         case 3:
